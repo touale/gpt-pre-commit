@@ -13,6 +13,12 @@ release:
       when: always
   tags:
     - "k8s_runner_gov"
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-pip
+    paths:
+      - .cache/pip
+  variables:
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   before_script:
     - git checkout "$CI_COMMIT_REF_NAME"
     - git status
