@@ -2,6 +2,7 @@
 import argparse
 import os
 import subprocess
+import sys
 
 import openai
 from dotenv import load_dotenv
@@ -82,24 +83,26 @@ def main() -> int:
     full_data = f"{unstaged_data}\n\n{staged_data}"
     # print(full_data)
 
-    client = openai.OpenAI(api_key=api_key, base_url=base_url)
+    try:
+        client = openai.OpenAI(api_key=api_key, base_url=base_url)
+    except Exception as e:
+        with open(args.output, "w") as f:
+            f.write(str(e))
+        return 0
+
     user_prompt = ChatCompletionUserMessageParam(content=f"本次Review的PR如下：\n{full_data}", role="user")
 
     messages = [
         eval_code_prompt,
         user_prompt,
     ]
-    eval_response = client.chat.completions.create(model=args.model, messages=messages).choices[-1].message.content  # type: ignore
-
+    eval_response = create_commit_message(client, args.model, messages)
     messages = [
         recommend_commit_msg_prompt,
         user_prompt,
     ]
 
-    recommend_response = (
-        client.chat.completions.create(model=args.model, messages=messages).choices[-1].message.content  # type: ignore
-    )
-
+    recommend_response = create_commit_message(client, args.mode, messages)
     md = f"## 评估结果：\n{eval_response}---\n\n\n## 推荐的commit message：\n{recommend_response}"
 
     with open(args.output, "w") as f:
@@ -109,6 +112,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    import sys
-
     sys.exit(main())
