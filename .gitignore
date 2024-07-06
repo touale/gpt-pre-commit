@@ -1,0 +1,5 @@
+/.venv/
+/REVIEW.md
+/.ruff_cache/
+/.mypy_cache/
+/.idea/

@@ -1,0 +1,8 @@
+- id: review-code
+  name: gpt review code
+  description: introduce gpt to review code.
+  entry: review-code
+  language: python
+  pass_filenames: false
+  stages: [commit, push]
+  args: []

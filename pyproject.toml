@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "gpt-pre-commit"
+version = "0.1.0"
+description = "Used to assist in code review before commit!"
+authors = ["touale <cpyu66@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+openai = "^1.35.10"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.1"
+mypy = "^1.10.1"
+pre-commit = "^3.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.packages]]
+include = "gpt_pre_commit"
+from = "src"
+
+[tool.poetry.scripts]
+review-code = "gpt_pre_commit.review_code:main"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 119
+
+[tool.ruff.lint]
+extend-select = [
+    "C", # Complexity
+    "E", # PEP8 errors
+    "F", # PEP8 formatting
+    "I", # Import sorting
+    "UP", # Pyupgrade upgrades
+    "W", # PEP8 warnings
+]
+ignore = [
+    "C901", # Function too complex
+    "E501", # Line length (handled by ruff-format)
+    "UP007", # X | Y style Unions
+]
