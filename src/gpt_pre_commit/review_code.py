@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 import argparse
+import os
 import subprocess
 
 import openai
+from dotenv import load_dotenv
 from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam
 
 eval_code_prompt = ChatCompletionSystemMessageParam(
@@ -26,8 +28,8 @@ exclude_files = ["poetry.lock"]
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Integrate OpenAI to review git changes.")
-    parser.add_argument("api_key", help="OpenAI API key")
-    parser.add_argument("base_url", help="OpenAI API URL")
+    parser.add_argument("--api_key", default=None, help="OpenAI API key")
+    parser.add_argument("--base_url", default=None, help="OpenAI API URL")
     parser.add_argument("model", help="OpenAI model")
     parser.add_argument("--output", default="REVIEW.md", help="Output file path, default: REVIEW.md")
     return parser.parse_args()
@@ -66,6 +68,10 @@ def create_commit_message(client, model, messages):
 
 def main() -> int:
     args = parse_arguments()
+    load_dotenv()
+
+    api_key = os.getenv("OPENAI_API_KEY") or args.api_key
+    base_url = os.getenv("OPENAI_API_URL") or args.base_url
 
     unstaged_files = get_git_diff()
     staged_files = get_git_diff(staged=True)
@@ -76,7 +82,7 @@ def main() -> int:
     full_data = f"{unstaged_data}\n\n{staged_data}"
     # print(full_data)
 
-    client = openai.OpenAI(api_key=args.api_key, base_url=args.base_url)
+    client = openai.OpenAI(api_key=api_key, base_url=base_url)
     user_prompt = ChatCompletionUserMessageParam(content=f"本次Review的PR如下：\n{full_data}", role="user")
 
     messages = [
