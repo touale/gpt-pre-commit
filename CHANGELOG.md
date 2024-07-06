@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.2.0 (2024-07-06)
+
+### Feature
+
+* feat: Support reading key and url from the environment. ([`c4b8220`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/c4b8220ab98de752863ea502eaf46c746a763538))
+
+### Unknown
+
+* Merge branch &#39;dev&#39; into &#39;master&#39;
+
+feat: Support reading key and url from the environment.
+
+See merge request gzhu-public/pre-commit-plugin!1 ([`5186876`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/5186876260a9f82e889563d456f6eb1aa10d0de7))
+
 ## v0.1.0 (2024-07-06)
 
 ### Feature
