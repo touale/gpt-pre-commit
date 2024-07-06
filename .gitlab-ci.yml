@@ -1,0 +1,23 @@
+stages:
+  - build
+
+release:
+  image:
+    name: 172.22.121.50/dockerhub/library/python:3.11
+    entrypoint: [""]
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^v/ && $CI_COMMIT_REF_NAME == "master"'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: always
+  tags:
+    - "k8s_runner_gov"
+  before_script:
+    - git checkout "$CI_COMMIT_REF_NAME"
+    - git status
+  script:
+    - make install
+    - make lint
+    - make style
+    - poetry run semantic-release version

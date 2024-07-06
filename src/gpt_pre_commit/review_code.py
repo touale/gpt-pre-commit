@@ -21,6 +21,8 @@ recommend_commit_msg_prompt = ChatCompletionSystemMessageParam(
     "Please use markdown format for returned information",
 )
 
+exclude_files = ["poetry.lock"]
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Integrate OpenAI to review git changes.")
@@ -42,6 +44,8 @@ def get_git_diff(staged=False):
 def generate_diff_output(files, staged=False):
     diff_data = ""
     for file in files:
+        if file in exclude_files:
+            continue
         state = "staged" if staged else "unstaged"
         diff_cmd = ["git", "diff", "--cached", file] if staged else ["git", "diff", file]
         diff_result = subprocess.run(diff_cmd, capture_output=True, text=True)
@@ -69,7 +73,8 @@ def main() -> int:
     unstaged_data = generate_diff_output(unstaged_files)
     staged_data = generate_diff_output(staged_files, staged=True)
 
-    full_data = unstaged_data + staged_data
+    full_data = f"{unstaged_data}\n\n{staged_data}"
+    # print(full_data)
 
     client = openai.OpenAI(api_key=args.api_key, base_url=args.base_url)
     user_prompt = ChatCompletionUserMessageParam(content=f"本次Review的PR如下：\n{full_data}", role="user")
@@ -89,7 +94,7 @@ def main() -> int:
         client.chat.completions.create(model=args.model, messages=messages).choices[-1].message.content  # type: ignore
     )
 
-    md = f"{eval_response}---\n\n\n### 推荐的commit message：\n{recommend_response}"
+    md = f"## 评估结果：\n{eval_response}---\n\n\n## 推荐的commit message：\n{recommend_response}"
 
     with open(args.output, "w") as f:
         f.write(md)

@@ -5,7 +5,7 @@ repos:
       - id: check-added-large-files
       - id: check-toml
       - id: check-yaml
-        args: [--unsafe]
+        args: [ --unsafe ]
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
@@ -13,7 +13,5 @@ repos:
     rev: v0.4.3
     hooks:
       - id: ruff
-        args: [--fix]
-        exclude: 'src/lib/'
+        args: [ --fix ]
       - id: ruff-format
-        exclude: 'src/lib/'

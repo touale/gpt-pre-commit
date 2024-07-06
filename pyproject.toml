@@ -15,6 +15,9 @@ ruff = "^0.5.1"
 mypy = "^1.10.1"
 pre-commit = "^3.7.1"
 
+[tool.poetry.group.release.dependencies]
+python-semantic-release = "^9.8.4"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
@@ -44,3 +47,64 @@ ignore = [
     "E501", # Line length (handled by ruff-format)
     "UP007", # X | Y style Unions
 ]
+
+
+[tool.semantic_release]
+assets = []
+build_command_env = []
+commit_message = "v{version} release!"
+commit_parser = "angular"
+logging_use_named_masks = false
+major_on_zero = true
+allow_zero_version = true
+no_git_verify = false
+tag_format = "v{version}"
+version_toml = [
+    "pyproject.toml:tool.poetry.version"
+]
+version_variables = [
+    "src/gpt_pre_commit/__init__.py:__version__",
+]
+
+[tool.semantic_release.branches.main]
+match = "(master)"
+prerelease_token = "rc"
+prerelease = false
+
+[tool.semantic_release.changelog]
+template_dir = "templates"
+changelog_file = "CHANGELOG.md"
+exclude_commit_patterns = []
+
+[tool.semantic_release.changelog.environment]
+block_start_string = "{%"
+block_end_string = "%}"
+variable_start_string = "{{"
+variable_end_string = "}}"
+comment_start_string = "{#"
+comment_end_string = "#}"
+trim_blocks = false
+lstrip_blocks = false
+newline_sequence = "\n"
+keep_trailing_newline = false
+extensions = []
+autoescape = true
+
+[tool.semantic_release.commit_author]
+env = "GIT_COMMIT_AUTHOR"
+default = "gitlab-releaser <gitlab-releaser@localhost>"
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf"]
+default_bump_level = 0
+
+[tool.semantic_release.remote]
+name = "origin"
+type = "gitlab"
+ignore_token_for_push = false
+insecure = true
+token = { env = "GITLAB_TOKEN" }
+url = "http://172.22.121.51:8929/gzhu-public/pre-commit-plugin"
+domain = "http://172.22.121.51:8929"
