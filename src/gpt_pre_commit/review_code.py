@@ -102,7 +102,7 @@ def main() -> int:
         user_prompt,
     ]
 
-    recommend_response = create_commit_message(client, args.mode, messages)
+    recommend_response = create_commit_message(client, args.model, messages)
     md = f"## 评估结果：\n{eval_response}---\n\n\n## 推荐的commit message：\n{recommend_response}"
 
     with open(args.output, "w") as f:
