@@ -1,8 +1,18 @@
 # CHANGELOG
 
-## v0.2.1 (2024-07-06)
+## v0.2.0 (2024-07-06)
+
+### Ci
+
+* ci: Add cache to Speed up build. ([`df9d88f`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/df9d88f32874438008b696c777b0c9c9517b2327))
+
+### Feature
+
+* feat: Support reading key and url from the environment. ([`c4b8220`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/c4b8220ab98de752863ea502eaf46c746a763538))
 
 ### Fix
+
+* fix: Fix error command. ([`e70cccc`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/e70cccc78c75930816152512cecea09b59643697))
 
 * fix: Fix the commit failure problem caused by key error. ([`3468935`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/34689359c6c0fcb7be673d26e888c3a94be66bd9))
 
@@ -17,18 +27,6 @@ See merge request gzhu-public/pre-commit-plugin!2 ([`31fc4f4`](http://172.22.121
 * Merge remote-tracking branch &#39;origin/master&#39; into dev ([`d006c89`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/d006c8950deb74208c83854e0f9a944c54a6f8d2))
 
 * docx: Improve README.md document. ([`e47fcb2`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/e47fcb2a66f98741b24877fc3bcb543224f2554f))
-
-## v0.2.0 (2024-07-06)
-
-### Ci
-
-* ci: Add cache to Speed up build. ([`df9d88f`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/df9d88f32874438008b696c777b0c9c9517b2327))
-
-### Feature
-
-* feat: Support reading key and url from the environment. ([`c4b8220`](http://172.22.121.51:8929/gzhu-public/pre-commit-plugin/-/commit/c4b8220ab98de752863ea502eaf46c746a763538))
-
-### Unknown
 
 * Merge branch &#39;dev&#39; into &#39;master&#39;
 
