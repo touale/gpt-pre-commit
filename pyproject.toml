@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gpt-pre-commit"
-version = "0.2.0"
+version = "0.3.0"
 description = "Used to assist in code review before commit!"
 authors = ["touale <cpyu66@gmail.com>"]
 license = "MIT"
