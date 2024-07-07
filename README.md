@@ -27,12 +27,12 @@ pre-commit install
 Step1: Configure the pre-commit hooks in your `.pre-commit-config.yaml`:
 
 ```yaml
-- repo: http://172.22.121.51:8929/gzhu-public/pre-commit-plugin
-  rev: v0.2.0
+- repo: https://github.com/touale/gpt-pre-commit
+  rev: v0.3.0
   hooks:
     - id: review-code
       allow_fail: true
-      args: ["your model_name"]
+      args: ["your model_name","--exclude" ,"pyproject.toml","poetry.lock",".env",".pre-commit-config.yaml","Makefile" ]
 ```
 
 **How to set api_key and base_url of OpenAI?** There are three methods to choose from:
