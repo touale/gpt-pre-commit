@@ -24,8 +24,6 @@ recommend_commit_msg_prompt = ChatCompletionSystemMessageParam(
     "Please use markdown format for returned information",
 )
 
-exclude_files = ["poetry.lock"]
-
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Integrate OpenAI to review git changes.")
@@ -33,6 +31,7 @@ def parse_arguments():
     parser.add_argument("--base_url", default=None, help="OpenAI API URL")
     parser.add_argument("model", help="OpenAI model")
     parser.add_argument("--output", default="REVIEW.md", help="Output file path, default: REVIEW.md")
+    parser.add_argument("--exclude", default=["poetry.lock"], nargs="+", help="Exclude files")
     return parser.parse_args()
 
 
@@ -44,7 +43,7 @@ def get_git_diff(staged=False):
     return result.stdout.strip().split()
 
 
-def generate_diff_output(files, staged=False):
+def generate_diff_output(files, exclude_files, staged=False):
     diff_data = ""
     for file in files:
         if file in exclude_files:
@@ -77,8 +76,8 @@ def main() -> int:
     unstaged_files = get_git_diff()
     staged_files = get_git_diff(staged=True)
 
-    unstaged_data = generate_diff_output(unstaged_files)
-    staged_data = generate_diff_output(staged_files, staged=True)
+    unstaged_data = generate_diff_output(unstaged_files, args.exclude)
+    staged_data = generate_diff_output(staged_files, args.exclude, staged=True)
 
     full_data = f"{unstaged_data}\n\n{staged_data}"
     # print(full_data)
